@@ -80,6 +80,28 @@ async function run() {
             const result = await serviceCollection.deleteOne(query);
             res.send(result);
         });
+        // Order Collection API
+
+        app.get('/order', verifyJWT, async (req, res) => {
+            const decodedEmail = req.decoded.email;
+            const email = req.query.email;
+            if (email === decodedEmail) {
+                const query = { email: email };
+                const cursor = orderCollection.find(query);
+                const orders = await cursor.toArray();
+                res.send(orders);
+            }
+            else {
+                res.status(403).send({ message: 'forbidden access' })
+            }
+        })
+
+        app.post('/order', async (req, res) => {
+            const order = req.body;
+            const result = await orderCollection.insertOne(order);
+            res.send(result);
+        })
+
 
     }
 
@@ -90,8 +112,6 @@ async function run() {
 
 run().catch(console.dir);
 
-// just pushing again to restart
-// heroku not fixed yet
 app.get('/', (req, res) => {
     res.send('Running Razer House on heroku');
 });
