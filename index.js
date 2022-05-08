@@ -4,8 +4,6 @@ const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 require('dotenv').config();
 const port = process.env.PORT || 5000;
 
-
-nsndoanj'[jp;ckj;zxm'cjaujdoink]
 const app = express();
 
 // middleware
@@ -42,7 +40,6 @@ async function run() {
         await client.connect();
         const serviceCollection = client.db('razerHouse').collection('inventory');
         const orderCollection = client.db('razerHouse').collection('order');
-
 
         // AUTH
         app.post('/login', async (req, res) => {
@@ -94,7 +91,7 @@ run().catch(console.dir);
 
 
 app.get('/', (req, res) => {
-    res.send('Running Razer House');
+    res.send('Running Razer House on heroku');
 });
 
 app.listen(port, () => {
