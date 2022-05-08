@@ -9,8 +9,12 @@ const port = process.env.PORT || 5000;
 const app = express();
 
 // middleware
-app.use(cors());
-app.use(express.json());
+const corsConfig = {
+    origin: true,
+    credentials: true,
+}
+app.use(cors(corsConfig))
+app.options('*', cors(corsConfig))
 
 // JWT applied 
 function verifyJWT(req, res, next) {
