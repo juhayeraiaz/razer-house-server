@@ -15,6 +15,7 @@ const corsConfig = {
 }
 app.use(cors(corsConfig))
 app.options('*', cors(corsConfig))
+app.use(express.json());
 
 // JWT applied 
 function verifyJWT(req, res, next) {
