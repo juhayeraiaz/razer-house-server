@@ -90,6 +90,7 @@ async function run() {
 run().catch(console.dir);
 
 // just pushing again to restart
+// heroku not fixed yet
 app.get('/', (req, res) => {
     res.send('Running Razer House on heroku');
 });
