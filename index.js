@@ -39,7 +39,7 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 async function run() {
     try {
         await client.connect();
-        const serviceCollection = client.db('razerHouse').collection('inventory');
+        const inventoryCollection = client.db('razerHouse').collection('inventory');
         const orderCollection = client.db('razerHouse').collection('order');
 
         // AUTH
@@ -53,30 +53,47 @@ async function run() {
         // SERVICES API
         app.get('/inventory', async (req, res) => {
             const query = {};
-            const cursor = serviceCollection.find(query);
-            const services = await cursor.toArray();
-            res.send(services);
+            const cursor = inventoryCollection.find(query);
+            const inventories = await cursor.toArray();
+            res.send(inventories);
         });
 
         app.get('/inventory/:id', async (req, res) => {
             const id = req.params.id;
             const query = { _id: ObjectId(id) };
-            const service = await serviceCollection.findOne(query);
-            res.send(service);
+            const inventory = await inventoryCollection.findOne(query);
+            res.send(inventory);
         });
 
         // POST
         app.post('/inventory', async (req, res) => {
-            const newService = req.body;
-            const result = await serviceCollection.insertOne(newService);
+            const newInventory = req.body;
+            const result = await inventoryCollection.insertOne(newInventory);
             res.send(result);
         });
+
+        // update user
+        app.put('/inventory/:id', async (req, res) => {
+            const id = req.params.id;
+            const updatedUser = req.body;
+            const filter = { _id: ObjectId(id) };
+            const options = { upsert: true };
+            const updatedDoc = {
+                $set: {
+                    quantity: updatedUser.quantity
+                }
+            };
+            const result = await inventoryCollection.updateOne(filter, updatedDoc, options);
+            res.send(result);
+
+        })
+
 
         // DELETE
         app.delete('/inventory/:id', async (req, res) => {
             const id = req.params.id;
             const query = { _id: ObjectId(id) };
-            const result = await serviceCollection.deleteOne(query);
+            const result = await inventoryCollection.deleteOne(query);
             res.send(result);
         });
         // Order Collection API

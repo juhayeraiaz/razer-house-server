@@ -1,7 +1,6 @@
 {
   "name": "razer-house-server-side",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
@@ -18,5 +17,7 @@
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^4.5.0",
     "nodemon": "^2.0.16"
-  }
+  },
+  
+  "description": ""
 }
