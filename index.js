@@ -41,6 +41,7 @@ async function run() {
         await client.connect();
         const inventoryCollection = client.db('razerHouse').collection('inventory');
         const orderCollection = client.db('razerHouse').collection('order');
+        const reviewCollection = client.db('razerHouse').collection('reviews')
 
         // AUTH
         app.post('/login', async (req, res) => {
@@ -118,6 +119,16 @@ async function run() {
             res.send(result);
         })
 
+        // getting all reviews
+        app.post('/reviews', verifyJWT, async (req, res) => {
+            const reviews = req.body;
+            const getReviews = await reviewCollection.insertOne(reviews);
+            res.send(getReviews);
+        })
+        app.get('/reviews', async (req, res) => {
+            const reviews = await reviewCollection.find().toArray();
+            res.send(reviews);
+        })
 
     }
 
